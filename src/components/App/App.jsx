@@ -19,21 +19,12 @@ const getFeedback = () => {
 };
 
 function App() {
-  const [isFeedback, setIsFeedback] = useState(false);
   const [feedback, setFeedback] = useState(getFeedback);
 
   const totalFeedback = feedback.good + feedback.neutral + feedback.bad;
   const positiveFeedback =
     Math.round(((feedback.good + feedback.neutral) / totalFeedback) * 100) +
     "%";
-
-  const isFeedbackValues = () => {
-    if (totalFeedback > 0) {
-      setIsFeedback(true);
-    } else {
-      setIsFeedback(false);
-    }
-  };
 
   const updateFeedback = (feedbackType) => {
     setFeedback({
@@ -54,7 +45,6 @@ function App() {
 
   useEffect(() => {
     localStorage.setItem("feedback", JSON.stringify(feedback));
-    isFeedbackValues();
   }, [feedback]);
 
   return (
@@ -63,18 +53,18 @@ function App() {
       <Options
         onUpdateFeedback={updateFeedback}
         onReset={resetFeedback}
-        isResetBtn={isFeedback}
+        total={totalFeedback}
       />
-      {!isFeedback && <Notification />}
-      {isFeedback && (
+      {totalFeedback > 0 ? (
         <Feedback
-          isFeedback={isFeedback}
           good={feedback.good}
           neutral={feedback.neutral}
           bad={feedback.bad}
           total={totalFeedback}
           positive={positiveFeedback}
         />
+      ) : (
+        <Notification />
       )}
     </>
   );

@@ -1,10 +1,12 @@
 import css from "./Options.module.css";
 
-export default function Options({ onUpdateFeedback, onReset, isResetBtn }) {
+export default function Options({ onUpdateFeedback, onReset, total }) {
   return (
     <ul className={css.list}>
       <li>
         <button
+          type="button"
+          aria-label="Good opinion button"
           onClick={() => {
             onUpdateFeedback("good");
           }}
@@ -14,6 +16,8 @@ export default function Options({ onUpdateFeedback, onReset, isResetBtn }) {
       </li>
       <li>
         <button
+          type="button"
+          aria-label="Neutral opinion button"
           onClick={() => {
             onUpdateFeedback("neutral");
           }}
@@ -23,6 +27,8 @@ export default function Options({ onUpdateFeedback, onReset, isResetBtn }) {
       </li>
       <li>
         <button
+          type="button"
+          aria-label="Bad opinion button"
           onClick={() => {
             onUpdateFeedback("bad");
           }}
@@ -30,9 +36,11 @@ export default function Options({ onUpdateFeedback, onReset, isResetBtn }) {
           Bad
         </button>
       </li>
-      {isResetBtn && (
+      {total > 0 ? (
         <li>
           <button
+            type="button"
+            aria-label="Reset button"
             onClick={() => {
               onReset();
             }}
@@ -40,6 +48,8 @@ export default function Options({ onUpdateFeedback, onReset, isResetBtn }) {
             Reset
           </button>
         </li>
+      ) : (
+        ""
       )}
     </ul>
   );
